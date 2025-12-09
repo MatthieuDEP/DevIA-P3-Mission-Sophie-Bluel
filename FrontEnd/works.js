@@ -25,3 +25,37 @@ function genererGallery(works) {
 };
 
 genererGallery(works);
+
+//Gestion des boutons
+const btnTous = document.querySelector(".btn-tous");
+btnTous.addEventListener("click", function () {
+    document.querySelector(".gallery").innerHTML = "";
+    genererGallery(works);
+});
+
+const btnObjets = document.querySelector(".btn-objets");
+btnObjets.addEventListener("click", function () {
+    const worksObjets = works.filter(function (work) {
+        return work.category.id === 1;
+    });
+    document.querySelector(".gallery").innerHTML = "";
+    genererGallery(worksObjets);
+});
+
+const btnAppartements = document.querySelector(".btn-appartements");
+btnAppartements.addEventListener("click", function () {
+    const worksAppartements = works.filter(function (work) {
+        return work.category.id === 2;
+    });
+    document.querySelector(".gallery").innerHTML = "";
+    genererGallery(worksAppartements);
+});
+
+const btnHotels = document.querySelector(".btn-hotels");
+btnHotels.addEventListener("click", function () {
+    const worksHotels = works.filter(function (work) {
+        return work.category.id === 3;
+    });
+    document.querySelector(".gallery").innerHTML = "";
+    genererGallery(worksHotels);
+});
