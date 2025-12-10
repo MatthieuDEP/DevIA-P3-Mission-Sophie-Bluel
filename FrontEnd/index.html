@@ -9,7 +9,9 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/8706d69aaa.js" crossorigin="anonymous"></script>
 	<script type="module" src="works.js"></script>
+	<script type="module" src="modal.js"></script>
 </head>
 <body>
 <header>
@@ -24,6 +26,10 @@
 		</ul>
 	</nav>
 </header>
+<div class="editionMode hidden">
+	<i class="fa-regular fa-pen-to-square"></i>
+	<p>Mode édition</p>
+</div>
 <main>
 	<section id="introduction">
 		<figure>
@@ -37,7 +43,48 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio-title-modify">
+			<h2>Mes Projets</h2>
+			<div class="portfolio-modify hidden">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<button class="modalOpenButton">modifier</button>
+			</div>
+			<aside class="modal hidden">
+				<div class="modalTopButtons">
+					<button class="modalReturnButton hidden"><i class="fa-solid fa-arrow-left"></i></button>
+					<button class="modalCloseButton"><i class="fa-solid fa-xmark"></i></button>
+				</div>
+				<h2 class="modalTitleGallery">Galerie photo</h2>
+				<h2 class="modalTitleAddPhoto hidden">Ajout photo</h2> 
+				<div class="modalGallery"></div>
+				<div class="modalForm hidden">
+					<form id="form" action="#" method="post">
+						<div class="formWrapper">
+							<div class="formImage">
+								<i class="fa-regular fa-image"></i>
+								<label for="fileUpload">+ Ajouter photo</label>
+								<input type="file" name="image" id="fileUpload" accept=".jpg, .jpeg, .png" style="display: none;" required>
+								<p>jpg, png: 4mo max</p>
+							</div>
+							<div class="formEntryField">
+								<label for="title">Titre</label>
+								<input type="text" name="title" id="title" required>
+								<label for="category">Catégorie</label>
+								<select name="category" id="category" required>
+									<option value=""></option>
+									<option value="1">Objets</option>
+									<option value="2">Appartements</option>
+									<option value="3">Hôtels & restaurants</option>
+								</select>
+							</div>
+						</div>
+						<input class="modalValidateButton" type="submit" value="Valider">
+					</form>
+				</div>
+				<button class="modalAddButton">Ajouter une photo</button>
+			</aside>
+			<div class="overlay hidden"></div>
+		</div>
 		<div class="filters">
 			<button class="btn-filter btn-tous">Tous</button>
 			<button class="btn-filter btn-objets">Objets</button>

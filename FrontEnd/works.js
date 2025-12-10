@@ -59,3 +59,24 @@ btnHotels.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = "";
     genererGallery(worksHotels);
 });
+
+// Affichage du mode édition
+const editionBar = document.querySelector(".editionMode");
+const btnLogin = document.querySelector(".btn-login");
+const btnLogout = document.querySelector(".btn-logout");
+const btnModify = document.querySelector(".portfolio-modify");
+const filters = document.querySelector(".filters")
+
+let tokenOk = window.localStorage.getItem("sophieBluelToken");
+
+if (tokenOk !== null) {
+    editionBar.classList.remove("hidden");
+    btnLogin.classList.add("hidden");
+    btnLogout.classList.remove("hidden");
+    btnModify.classList.remove("hidden");
+    filters.classList.add("hidden");
+};
+
+btnLogout.addEventListener('click', function () {
+    window.localStorage.removeItem("sophieBluelToken");
+});
