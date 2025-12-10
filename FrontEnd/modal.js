@@ -1,3 +1,5 @@
+import { findWorks, generateGallery } from "./works.js";
+
 // Modale ouverture/fermeture
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
@@ -82,7 +84,6 @@ modalReturnButton.addEventListener("click", () => {
     generateGalleryModal(worksModal);
 });
 
-
 // Prévisualisation de l'image dans la modale
 const form = document.getElementById("form");
 const fileInput = document.getElementById("fileUpload");
@@ -154,6 +155,17 @@ async function addWork() {
     const newWork = await response.json();
     console.log("Ajout réussi :", newWork);
 
+    // Mise à jour de l'affichage
+    const newResponse = await fetch("http://localhost:5678/api/works");
+    const newData = await newResponse.json();
+    worksModal.length = 0;
+    worksModal.push(...newData);
+    generateGalleryModal(newData);
+    generateGallery(await findWorks());
+
+    // Fermeture de la modale
+    closeModal();
+
     // Reset du formulaire et de la prévisualisation
     form.reset();
     const oldPreview = document.querySelector(".modalPreviewContainer");
@@ -190,5 +202,12 @@ async function deleteWork(id) {
     if (!response.ok) {
         console.error("Erreur de suppression");
         return;
-    } 
+    }
+    
+    // Mise à jour de l'affichage
+    const newList = worksModal.filter(w => w.id != id);
+    worksModal.length = 0;
+    worksModal.push(...newList);
+    generateGalleryModal(newList);
+    generateGallery(await findWorks());
 }

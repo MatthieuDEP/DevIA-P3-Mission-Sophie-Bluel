@@ -1,12 +1,24 @@
-const response = await fetch('http://localhost:5678/api/works');
-const works = await response.json();
+export async function findWorks() {
+    const response = await fetch('http://localhost:5678/api/works');
+    const works = await response.json();
+    if(response.ok){
+        return works;
+    }
+    return null;
+};
 
-function genererGallery(works) {
+const works = await findWorks();
+
+generateGallery(works);
+
+export function generateGallery(works) {
+    // Récupération de l'élément du DOM qui accueillera les projets
+    const sectionGallery = document.querySelector(".gallery");
+    sectionGallery.innerHTML="";
+
     for (let i = 0; i < works.length; i++) {
 
         const projet = works[i];
-        // Récupération de l'élément du DOM qui accueillera les projets
-        const sectionGallery = document.querySelector(".gallery");
         // Création balise dédiée à un projet
         const projetElement = document.createElement("figure");
         // Création des balises
@@ -19,18 +31,15 @@ function genererGallery(works) {
         sectionGallery.appendChild(projetElement);
         // On rattache les balises img et figcaption à la balise figure
         projetElement.appendChild(imageElement);
-        projetElement.appendChild(nomElement);
-
+        projetElement.appendChild(nomElement); 
     };
 };
-
-genererGallery(works);
 
 //Gestion des boutons
 const btnTous = document.querySelector(".btn-tous");
 btnTous.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = "";
-    genererGallery(works);
+    generateGallery(works);
 });
 
 const btnObjets = document.querySelector(".btn-objets");
@@ -39,7 +48,7 @@ btnObjets.addEventListener("click", function () {
         return work.category.id === 1;
     });
     document.querySelector(".gallery").innerHTML = "";
-    genererGallery(worksObjets);
+    generateGallery(worksObjets);
 });
 
 const btnAppartements = document.querySelector(".btn-appartements");
@@ -48,7 +57,7 @@ btnAppartements.addEventListener("click", function () {
         return work.category.id === 2;
     });
     document.querySelector(".gallery").innerHTML = "";
-    genererGallery(worksAppartements);
+    generateGallery(worksAppartements);
 });
 
 const btnHotels = document.querySelector(".btn-hotels");
@@ -57,7 +66,7 @@ btnHotels.addEventListener("click", function () {
         return work.category.id === 3;
     });
     document.querySelector(".gallery").innerHTML = "";
-    genererGallery(worksHotels);
+    generateGallery(worksHotels);
 });
 
 // Affichage du mode édition
