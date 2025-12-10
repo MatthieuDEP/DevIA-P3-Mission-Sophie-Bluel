@@ -47,6 +47,8 @@ function generateGalleryModal(works) {
         figure.appendChild(btn);
         modalGallery.appendChild(figure);
     });
+
+    DeleteListeners(); // listeners créés après génération
 }
 
 generateGalleryModal(worksModal);
@@ -164,3 +166,29 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
     addWork();
 });
+
+// SUPPRESSION DES WORKS
+function DeleteListeners() {
+    const deleteButtons = document.querySelectorAll(".trashButton");
+
+    deleteButtons.forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const id = e.target.dataset.id;
+            await deleteWork(id);
+        });
+    });
+}
+
+async function deleteWork(id) {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${tokenJeton}`
+        }
+    });
+
+    if (!response.ok) {
+        console.error("Erreur de suppression");
+        return;
+    } 
+}
