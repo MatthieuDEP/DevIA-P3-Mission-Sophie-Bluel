@@ -1,4 +1,4 @@
-// MODALE OUVERTURE / FERMETURE
+// Modale ouverture/fermeture
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const openModalBtn = document.querySelector(".modalOpenButton");
@@ -18,7 +18,7 @@ openModalBtn.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
 overlay.addEventListener("click", closeModal);
 
-// CHARGEMENT DES WORKS
+// Chargement des works
 const responseModal = await fetch("http://localhost:5678/api/works");
 const worksModal = await responseModal.json();
 
@@ -26,7 +26,8 @@ const modalGallery = document.querySelector(".modalGallery");
 
 // Génération de la galerie de la modale
 function generateGalleryModal(works) {
-    modalGallery.innerHTML = ""; // vide la galerie avant génération
+    // vide la galerie avant génération
+    modalGallery.innerHTML = ""; 
 
     works.forEach(work => {
         const figure = document.createElement("figure");
@@ -109,7 +110,7 @@ fileInput.addEventListener("change", (e) => {
     reader.readAsDataURL(file);
 });
 
-// Vérification champs formulaire
+// Vérification des champs du formulaire
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.querySelector(".modalValidateButton");
@@ -122,4 +123,44 @@ form.addEventListener("input", () => {
         validateButton.classList.add("modalValidateButton");
         validateButton.classList.remove("modalValidateButtonChecked");
     }
+});
+
+// AJOUT D’UN WORK
+const tokenJeton = localStorage.getItem("sophieBluelToken");
+
+async function addWork() {
+    const titleValue = title.value;
+    const categoryValue = category.value;
+    const fileValue = fileInput.files[0];
+
+    let formData = new FormData();
+    formData.append("title", titleValue);
+    formData.append("category", categoryValue);
+    formData.append("image", fileValue);
+
+    const response = await fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        headers: { "Authorization": `Bearer ${tokenJeton}` },
+        body: formData
+    });
+
+    if (!response.ok) {
+        console.error("Erreur lors de l'ajout");
+        return;
+    }
+
+    const newWork = await response.json();
+    console.log("Ajout réussi :", newWork);
+
+    // Reset du formulaire et de la prévisualisation
+    form.reset();
+    const oldPreview = document.querySelector(".modalPreviewContainer");
+    if (oldPreview) oldPreview.remove();
+    document.querySelector(".formImage").classList.remove("hidden");
+}
+
+// Soumission du formulaire
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    addWork();
 });
