@@ -55,6 +55,25 @@ function generateGalleryModal(works) {
 
 generateGalleryModal(worksModal);
 
+// Création du sélecteur de catégories dans la modale d'ajout
+async function categorySelector() {
+    const select = document.getElementById("category");
+
+    select.innerHTML = `<option value=""></option>`;
+
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
+
+    categories.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.id;
+        option.textContent = cat.name;
+        select.appendChild(option);
+    });
+}
+
+categorySelector();
+
 // Bascule entre les vues de la modale
 const modalReturnButton = document.querySelector(".modalReturnButton");
 const modalTitleGallery = document.querySelector(".modalTitleGallery");
@@ -83,6 +102,7 @@ modalReturnButton.addEventListener("click", () => {
 
     generateGalleryModal(worksModal);
 });
+
 
 // Prévisualisation de l'image dans la modale
 const form = document.getElementById("form");
