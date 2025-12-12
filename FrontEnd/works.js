@@ -35,39 +35,53 @@ export function generateGallery(works) {
     };
 };
 
-//Gestion des boutons
-const btnTous = document.querySelector(".btn-tous");
-btnTous.addEventListener("click", function () {
-    document.querySelector(".gallery").innerHTML = "";
-    generateGallery(works);
-});
+// Création des filtres
+async function generateFilters() {
+    const filtersContainer = document.getElementById("filters");
+    filtersContainer.innerHTML = "";
 
-const btnObjets = document.querySelector(".btn-objets");
-btnObjets.addEventListener("click", function () {
-    const worksObjets = works.filter(function (work) {
-        return work.category.id === 1;
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    generateGallery(worksObjets);
-});
+    // Bouton "Tous"
+    const btnTous = document.createElement("button");
+    btnTous.classList.add("btn-filter");
+    btnTous.textContent = "Tous";
+    btnTous.dataset.categoryId = "0";
+    filtersContainer.appendChild(btnTous);
 
-const btnAppartements = document.querySelector(".btn-appartements");
-btnAppartements.addEventListener("click", function () {
-    const worksAppartements = works.filter(function (work) {
-        return work.category.id === 2;
-    });
-    document.querySelector(".gallery").innerHTML = "";
-    generateGallery(worksAppartements);
-});
+    // Récupérer les catégories
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
 
-const btnHotels = document.querySelector(".btn-hotels");
-btnHotels.addEventListener("click", function () {
-    const worksHotels = works.filter(function (work) {
-        return work.category.id === 3;
+    categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.classList.add("btn-filter");
+        btn.textContent = cat.name;
+        btn.dataset.categoryId = cat.id;
+        filtersContainer.appendChild(btn);
     });
-    document.querySelector(".gallery").innerHTML = "";
-    generateGallery(worksHotels);
-});
+
+    activateFilterButtons();
+}
+
+generateFilters();
+
+// Activation des filtres
+function activateFilterButtons() {
+    const buttons = document.querySelectorAll(".btn-filter");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+
+            const categoryId = button.dataset.categoryId;
+
+            if (categoryId === "0") {
+                generateGallery(works);
+            } else {
+                const filtered = works.filter(work => work.categoryId == categoryId);
+                generateGallery(filtered);
+            }
+        });
+    });
+}
 
 // Affichage du mode édition
 const editionBar = document.querySelector(".editionMode");

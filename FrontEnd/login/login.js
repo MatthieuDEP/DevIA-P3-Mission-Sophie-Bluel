@@ -11,20 +11,21 @@ async function tryLogin(user) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
     });
-    console.log(response);
 
     if (response.status === 200) {
-        window.location.assign("http://127.0.0.1:5500/index.html");
+        const data = await response.json();
+    
+        const sophieBluelToken = data.token;
+        
+        window.localStorage.setItem('sophieBluelToken', sophieBluelToken);
+
+        window.location.assign("../index.html");
+
     } else {
         alert("Erreur dans l'identifiant ou le mot de passe");
+        return;
     };
 
-    const data = await response.json();
-    console.log(data);
-
-    const sophieBluelToken = data.token;
-    
-    window.localStorage.setItem('sophieBluelToken', sophieBluelToken);
 };
 
 formLogin.addEventListener("submit", event => {
@@ -35,6 +36,5 @@ formLogin.addEventListener("submit", event => {
         password: event.target.querySelector("[name=password]").value,
     };
 
-    console.log(user);
     tryLogin(user);
 });
