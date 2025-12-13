@@ -1,4 +1,6 @@
 const formLogin = document.querySelector(".formLogin");
+const errorMsg = document.getElementById("loginError");
+errorMsg.textContent = "";
 
 let user = {
     "email": '',
@@ -22,10 +24,9 @@ async function tryLogin(user) {
         window.location.assign("../index.html");
 
     } else {
-        alert("Erreur dans l'identifiant ou le mot de passe");
+        errorMsg.textContent = "Email ou mot de passe incorrect.";
         return;
     };
-
 };
 
 formLogin.addEventListener("submit", event => {

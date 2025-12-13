@@ -63,18 +63,19 @@
 							<div class="formImage">
 								<i class="fa-regular fa-image"></i>
 								<label for="fileUpload">+ Ajouter photo</label>
-								<input type="file" name="image" id="fileUpload" accept=".jpg, .jpeg, .png" style="display: none;" required>
+								<input type="file" name="image" id="fileUpload" accept=".jpg, .jpeg, .png" style="display: none;">
 								<p>jpg, png: 4mo max</p>
 							</div>
 							<div class="formEntryField">
 								<label for="title">Titre</label>
-								<input type="text" name="title" id="title" required>
+								<input type="text" name="title" id="title">
 								<label for="category">Catégorie</label>
-								<select name="category" id="category" required>
+								<select name="category" id="category">
 									<option value=""></option>
 								</select>
 							</div>
 						</div>
+						<p id="modalAddPhotoError" class="errorMessage"></p>
 						<input class="modalValidateButton" type="submit" value="Valider">
 					</form>
 				</div>

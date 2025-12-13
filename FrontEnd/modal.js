@@ -137,14 +137,22 @@ fileInput.addEventListener("change", (e) => {
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.querySelector(".modalValidateButton");
+const errorMsg = document.getElementById("modalAddPhotoError");
+errorMsg.textContent = "";
 
 form.addEventListener("input", () => {
     if (title.value && category.value && fileInput.files.length > 0) {
         validateButton.classList.add("modalValidateButtonChecked");
         validateButton.classList.remove("modalValidateButton");
+
+        errorMsg.textContent = "";
+        
     } else {
         validateButton.classList.add("modalValidateButton");
         validateButton.classList.remove("modalValidateButtonChecked");
+
+        errorMsg.textContent = "Tous les champs sont obligatoires.";
+        return;
     }
 });
 

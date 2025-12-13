@@ -377,6 +377,13 @@ li:hover {
 	height: 12rem;
 }
 
+.errorMessage {
+	color: red;
+	margin-top: 2rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
 .modalValidateButton {
 	margin: 4rem 0;
 	padding: 0.6rem 4rem;

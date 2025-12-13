@@ -85,6 +85,14 @@ li:hover {
 	flex-direction: column;
 }
 
+.errorMessage {
+	color: red;
+	margin-top: 0;
+	margin-bottom: 2rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
 .logIn input {
 	height: 50px;
 	font-size: 1.2em;
